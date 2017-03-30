@@ -2,12 +2,20 @@
 The below method takes message and secs as params and returns a promise after desired seconds
 */
 const result = []
+const ERROR_MSG_SECONDS = 'Seconds must be a numeric value'
+
+const throwError = (error) => {
+	throw new Error(error)
+}
 
 const formatMessage = (msg, secs) => {
 	return msg + ' by ' + secs + ' secs'
 }
 
 const delayMessage = (msg, secs) => {
+	if (!Number(secs)) {
+		throwError(ERROR_MSG_SECONDS)
+	}
 	return new Promise((resolve, reject) => {
 		const message = formatMessage(msg, secs)
 		setTimeout(() => { resolve(message) }, secs*1000)
@@ -54,5 +62,6 @@ execute()
 module.exports = {
   delayMessage: delayMessage,
   doubleDelay: doubleDelay,
-  formatMessage: formatMessage
+  formatMessage: formatMessage,
+  errorMsgSecs: ERROR_MSG_SECONDS
 }
